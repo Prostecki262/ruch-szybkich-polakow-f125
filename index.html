@@ -131,15 +131,18 @@ document.addEventListener('click',function(e){var a=e.target.closest&&e.target.c
 $('psr').oninput=$('psr').onchange=function(){var v=nrm(this.value),d=D.drivers.filter(function(x){return nrm(nl(x))==v||nrm(x.n)==v||nrm(x.nick)==v})[0];if(d)openProfile(d.n)};
 $('psr').onfocus=function(){this.value=''};$('psr').onblur=function(){if(!this.value)profile()};$('sel').onchange=function(){US.sel=1;race(+this.value)};$('qsel').onchange=function(){US.qsel=1;qual(+this.value)};$('da').onchange=$('db').onchange=duel;
 function csv(t){var R=[],r=[],c='',q=0;for(var i=0;i<t.length;i++){var ch=t[i];if(q){if(ch=='"'&&t[i+1]=='"'){c+='"';i++}else if(ch=='"')q=0;else c+=ch}else if(ch=='"')q=1;else if(ch==','){r.push(c);c=''}else if(ch=='\n'){r.push(c);R.push(r);r=[];c=''}else c+=ch}r.push(c);R.push(r);return R}
-function gvs(sh,rng){return fetch('https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:csv&headers=0&sheet='+sh+'&range='+rng).then(function(r){if(!r.ok)throw 0;return r.text()}).then(csv)}
+function gvs(sh,rng){var w=sh+'!'+rng;return fetch('https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:csv&headers=0&sheet='+encodeURIComponent(sh)+'&range='+rng)
+.catch(function(e){throw new Error(w+': brak połączenia lub blokada przeglądarki ('+((e&&e.message)||e)+')')})
+.then(function(r){if(!r.ok)throw new Error(w+': HTTP '+r.status);return r.text()})
+.then(function(t){if(t.trim().charAt(0)==='<')throw new Error(w+': Google zwrócił stronę HTML (arkusz nie jest udostępniony „każdy z linkiem” albo brak takiej zakładki)');return csv(t)})}
 function ok(n){return n&&n.trim()&&n.trim()[0]!=='#'}
 function live(){if(!SHEET_ID){$('note').textContent='Dane z arkusza (zrzut).';return}
-var K=12,ks=[],i;for(i=1;i<=K;i++)ks.push(i);
+var K=12,ks=[],i,snap=JSON.stringify(D);for(i=1;i<=K;i++)ks.push(i);
 var null_=function(){return null};
 Promise.all([gvs('Klasyfikacja','A4:H29'),gvs('Klasyfikacja','A34:F45')].concat(ks.map(function(k){return gvs('R'+k,'A1:A1').catch(null_)})).concat([gvs('Kalendarz','A1:F40').catch(null_)])).then(function(x){var dd=[],cc=[],ex=[],tm={};
 x[0].forEach(function(r){if(+r[0]>0&&r[1])dd.push({p:+r[0],n:r[1].trim(),nick:r[2]||'',t:(r[3]||'').trim(),no:r[4]||'-',pts:+r[5]||0,best:r[6]||'>10',bal:+r[7]||0})});
 x[1].forEach(function(r){if(+r[0]>0&&r[1])cc.push({p:+r[0],t:r[1].trim(),pts:+r[3]||0,best:r[4]||'>10',bal:+r[5]||0})});
-if(!dd.length)throw 0;dd.forEach(function(d){tm[d.n]=d.t});mergeCal(x[2+K]);
+if(!dd.length)throw new Error('Klasyfikacja!A4:H29: nie znalazłem wierszy z kierowcami (zmieniony układ zakładki?)');dd.forEach(function(d){tm[d.n]=d.t});mergeCal(x[2+K]);
 ks.forEach(function(k){var t=x[1+k],s=t&&t[0]&&t[0][0]||'';if(s.indexOf('Wyścig '+k+' ')>-1)ex.push({k:k,title:s.split('– ').pop().trim()})});
 return Promise.all(ex.map(function(e){return Promise.all([gvs('R'+e.k,'A1:G23'),gvs('Q'+e.k,'A1:F23').catch(null_),gvs('Q'+e.k,'A1:A1').catch(null_)])})).then(function(y){var rs=[],qs=[];
 y.forEach(function(z,j){var k=ex[j].k,R=z[0],Q=z[1],qt=z[2]&&z[2][0]&&z[2][0][0]||'',by={},rows=[],qr=[];
@@ -149,8 +152,8 @@ rows.sort(function(a,b){return a.p-b.p});if(!rows.length)return;
 if(Q&&qt.indexOf('Kwalifikacje '+k+' ')>-1)Q.forEach(function(r){var p=+r[5];if(ok(r[4])&&p>0)qr.push({p:p,n:r[4].trim(),nick:r[0]||'',t:tm[r[4].trim()]||'',time:r[3]||'',gap:r[2]||''})});
 qr.sort(function(a,b){return a.p-b.p});
 rs.push({title:ex[j].title,rows:rows});qs.push({title:qt?qt.split('– ').pop().trim():'Kwalifikacje '+k,rows:qr})});
-D.drivers=dd;if(cc.length)D.cons=cc;if(rs.length){D.races=rs;D.qrows=qs}all();
+try{D.drivers=dd;if(cc.length)D.cons=cc;if(rs.length){D.races=rs;D.qrows=qs}all()}catch(err){console.error(err);D=JSON.parse(snap);all();throw new Error('dane pobrane, ale błąd wyświetlania: '+err.message)}
 var bad=D.drivers.filter(function(d){return d.rp.reduce(function(a,b){return a+b},0)!==d.pts}).length;
-$('note').textContent='Dane na żywo z Arkuszy Google · '+new Date().toLocaleString('pl')+(bad?' · ⚠ '+bad+' kierowców ma inną sumę punktów z wyników niż w Klasyfikacji':'')})}).catch(function(){$('note').textContent='Nie udało się pobrać arkusza (sprawdź udostępnianie) – pokazuję zrzut danych.'})}
+$('note').textContent='Dane na żywo z Arkuszy Google · '+new Date().toLocaleString('pl')+(bad?' · ⚠ '+bad+' kierowców ma inną sumę punktów z wyników niż w Klasyfikacji':'')})}).catch(function(e){console.error(e);$('note').textContent='Nie udało się wczytać danych na żywo – '+((e&&e.message)||'nieznany błąd')+' – pokazuję zrzut danych.'})}
 var hm=(location.hash||'').match(/^#profil=(.+)/),hn=hm&&decodeURIComponent(hm[1]);if(hn&&find(D.drivers,hn))P=hn;all();show(P?7:0);live();
 </script></body></html>
