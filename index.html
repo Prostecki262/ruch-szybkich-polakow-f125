@@ -12,17 +12,21 @@ table{width:100%;border-collapse:collapse;font-size:14px}th{font-size:11px;text-
 td.n,th.n{text-align:center}.pos{font-weight:800;width:34px}.bar{display:inline-block;width:5px;height:16px;border-radius:2px;vertical-align:middle;margin-right:8px}
 .pts{font-weight:800}.pos-b{color:#0a9d55;font-weight:700}.neg-b{color:#d33;font-weight:700}.sub{color:var(--mu);font-size:12px}h2{font-size:16px;margin:14px 2px 8px}
 select,input{font:inherit;padding:7px;border-radius:8px;border:1px solid var(--ln);background:var(--card);color:var(--tx)}
-#note{font-size:12px;color:var(--mu);margin:4px 2px}svg text{fill:var(--tx);font:11px system-ui}.v{display:none}.v.on{display:block}.sum{margin:10px 2px;font-weight:600}.g1,.g2,.g3{font-weight:800}.g1{color:#d4a017}.g2{color:#98a1ac}.g3{color:#cd7f32}th[title]{cursor:help}
+a.pl{color:inherit;text-decoration:none}a.pl:hover b{text-decoration:underline}.pfh{position:relative;overflow:hidden;border-radius:12px;color:#fff;padding:18px;display:flex;gap:14px;align-items:center;margin-bottom:12px}.pfh .no{position:absolute;right:12px;top:-10px;font-size:90px;font-weight:900;opacity:.22;line-height:1}.pfh img{width:84px;height:84px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,.7);position:relative}.pfh h2{margin:0;font-size:22px;position:relative}.pfh .sub{color:rgba(255,255,255,.85);position:relative}
+.sts{display:grid;grid-template-columns:repeat(auto-fit,minmax(86px,1fr));gap:8px;margin-bottom:12px}.st{background:var(--card);border:1px solid var(--ln);border-radius:10px;padding:8px;text-align:center}.st b{display:block;font-size:20px}.st span{font-size:11px;color:var(--mu);text-transform:uppercase}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;margin-bottom:12px}.tile{background:var(--card);border:1px solid var(--ln);border-radius:10px;padding:10px}.tile .big{font-size:20px;font-weight:800}.tile .pts{margin-top:4px}
+#tip{position:fixed;display:none;pointer-events:none;background:#15171c;color:#fff;padding:6px 10px;border-radius:8px;font-size:12px;z-index:20;max-width:240px;box-shadow:0 2px 8px rgba(0,0,0,.35)}#note{font-size:12px;color:var(--mu);margin:4px 2px}svg text{fill:var(--tx);font:11px system-ui}.v{display:none}.v.on{display:block}.sum{margin:10px 2px;font-weight:600}.g1,.g2,.g3{font-weight:800}.g1{color:#d4a017}.g2{color:#98a1ac}.g3{color:#cd7f32}th[title]{cursor:help}
 </style></head><body>
 <header><h1>RUCH SZYBKICH POLAKÓW · F1 25</h1><p>Klasyfikacja ligi</p></header>
 <nav id="nav"></nav><main>
-<section class="v" id="v0"><input id="flt" placeholder="Szukaj kierowcy, nicku, zespołu…" style="width:100%;margin-bottom:10px"><div class="card"><table id="td"></table></div><div class="sub" id="note"></div></section>
+<section class="v" id="v0"><div class="card"><table id="td"></table></div><div class="sub" id="note"></div></section>
 <section class="v" id="v1"><div class="card"><table id="tc"></table></div></section>
 <section class="v" id="v2"><select id="sel"></select><div class="card" style="margin-top:10px"><table id="tr"></table></div></section>
 <section class="v" id="v3"><select id="qsel"></select><div class="card" style="margin-top:10px"><table id="tq"></table></div></section>
-<section class="v" id="v4"><h2>Punkty narastająco – kierowcy</h2><div class="card"><svg id="ch1" viewBox="0 0 700 300" style="width:100%;min-width:520px"></svg></div><h2>Punkty narastająco – zespoły</h2><div class="card"><svg id="ch2" viewBox="0 0 700 300" style="width:100%;min-width:520px"></svg></div></section>
-<section class="v" id="v5"><div class="card"><table id="ts"></table></div><div class="sub">Punkty w rundach: 25 (złoto), 18 (srebro) i 15 (brąz) to miejsca 1–3. WIN, TOP3, TOP10: wygrane, podia i miejsca punktowane. ŚR.P / ŚR.Q: średnia pozycja w wyścigu / kwalifikacjach (najedź na nagłówek, by zobaczyć pełną nazwę).</div></section>
+<section class="v" id="v4"><h2>Punkty narastająco – kierowcy (najedź na linię lub punkt)</h2><div class="card"><svg id="ch1" viewBox="0 0 700 300" style="width:100%;min-width:520px"></svg></div><h2>Punkty narastająco – zespoły</h2><div class="card"><svg id="ch2" viewBox="0 0 700 300" style="width:100%;min-width:520px"></svg></div></section>
+<section class="v" id="v5"><input id="flt" placeholder="Szukaj kierowcy, nicku, zespołu…" style="width:100%;margin-bottom:10px"><div class="card"><table id="ts"></table></div><div class="sub">Punkty w rundach: 25 (złoto), 18 (srebro) i 15 (brąz) to miejsca 1–3. WIN, TOP3, TOP10: wygrane, podia i miejsca punktowane. ŚR.P / ŚR.Q: średnia pozycja w wyścigu / kwalifikacjach (najedź na nagłówek, by zobaczyć pełną nazwę).</div></section>
 <section class="v" id="v6"><select id="da"></select> <b>vs</b> <select id="db"></select><div class="sum" id="ds"></div><div class="card"><table id="tdl"></table></div></section>
+<section class="v" id="v7"><input id="psr" list="dl" placeholder="Szukaj kierowcy (nazwa lub nick)…" style="width:100%;margin-bottom:10px"><datalist id="dl"></datalist><div id="pf"></div></section>
 </main>
 <script>
 // --- LIVE: ID arkusza Google (arkusz musi być udostępniony „każdy z linkiem – przeglądający”) ---
@@ -35,9 +39,9 @@ function bal(v){v=+v;return '<span class="'+(v>0?'pos-b':v<0?'neg-b':'')+'">'+(v
 function gap(g){if(g===null||g===''||g===undefined)return '';if(typeof g==='number'||/^[0-9]+(\.[0-9]+)?$/.test(g))return '+'+(+g).toFixed(3).replace('.',',');return g}
 function short(t){return t.split(' - ').pop()}
 function av(a){a=a.filter(Boolean);return a.length?(a.reduce(function(x,y){return x+y},0)/a.length).toFixed(1).replace('.',','):'–'}
-function nm(d){return '<span class="bar" style="background:'+col(d.t)+'"></span><b>'+d.n+'</b><div class="sub">'+(d.nick||'')+'</div>'}
-function drivers(){var f=nrm($('flt').value),h='<tr><th class="n">#</th><th>Kierowca</th><th>Zespół</th><th class="n">Nr</th><th class="n">Pkt</th><th class="n">Best Result</th><th class="n">Bilans Q→W</th></tr>';
-D.drivers.forEach(function(d){if(f&&nrm(d.n+' '+d.nick+' '+d.t).indexOf(f)<0)return;h+='<tr><td class="n pos">'+d.p+'</td><td>'+nm(d)+'</td><td>'+d.t+'</td><td class="n">'+d.no+'</td><td class="n pts">'+d.pts+'</td><td class="n">'+d.best+'</td><td class="n">'+bal(d.bal)+'</td></tr>'});$('td').innerHTML=h}
+function nm(d){return '<span class="bar" style="background:'+col(d.t)+'"></span><a href="#" class="pl" data-d="'+d.n+'"><b>'+d.n+'</b></a><div class="sub">'+(d.nick||'')+'</div>'}
+function drivers(){var h='<tr><th class="n">#</th><th>Kierowca</th><th>Zespół</th><th class="n">Nr</th><th class="n">Pkt</th><th class="n">Best Result</th><th class="n">Bilans Q→W</th></tr>';
+D.drivers.forEach(function(d){h+='<tr><td class="n pos">'+d.p+'</td><td>'+nm(d)+'</td><td>'+d.t+'</td><td class="n">'+d.no+'</td><td class="n pts">'+d.pts+'</td><td class="n">'+d.best+'</td><td class="n">'+bal(d.bal)+'</td></tr>'});$('td').innerHTML=h}
 function cons(){var h='<tr><th class="n">#</th><th>Zespół</th><th class="n">Pkt</th><th class="n">Best Result</th><th class="n">Bilans Q→W</th></tr>';
 D.cons.forEach(function(c){h+='<tr><td class="n pos">'+c.p+'</td><td><span class="bar" style="background:'+col(c.t)+'"></span><b>'+c.t+'</b></td><td class="n pts">'+c.pts+'</td><td class="n">'+c.best+'</td><td class="n">'+bal(c.bal)+'</td></tr>'});$('tc').innerHTML=h}
 function arr(i,r){var q=D.starts[i]&&D.starts[i][r.n];if(!q)return'';var d=q-r.p;return d>0?'<span class="pos-b">▲ '+d+'</span>':d<0?'<span class="neg-b">▼ '+(-d)+'</span>':'<span class="sub">–</span>'}
@@ -49,48 +53,78 @@ function calc(){D.quals=D.qrows.map(function(q){var m={};q.rows.forEach(function
 D.starts=D.races.map(function(r,i){var q=D.quals[i]||{},m={},mx=0,k;for(k in q){m[k]=q[k];mx=Math.max(mx,q[k])}if(!mx)return{};
 r.rows.filter(function(x){return!(x.n in q)}).map(function(x){return x.n}).sort(function(a,b){return a.localeCompare(b,'pl')}).forEach(function(n,j){m[n]=mx+1+j});return m});
 D.drivers.forEach(function(d){d.rp=D.races.map(function(r){var x=find(r.rows,d.n);return x?(PT[x.p-1]||0):0})})}
-function lines(id,S){var n=D.races.length,sp=Math.max(n-1,1),max=1,x0=40,w=540,h=240,o='',g,i;
+function lines(id,S,h){var n=D.races.length,sp=Math.max(n-1,1),max=1,x0=40,w=540,b=h+30,o='',g,i,seen={};
 S.forEach(function(s){var c=0;s.c=s.v.map(function(p){return c+=p});max=Math.max(max,c)});var st=Math.max(5,Math.ceil(max/5/5)*5);
-for(g=0;g<=max;g+=st){var y=270-g/max*h;o+='<line x1="'+x0+'" x2="'+(x0+w)+'" y1="'+y+'" y2="'+y+'" stroke="currentColor" opacity=".12"/><text x="4" y="'+(y+4)+'">'+g+'</text>'}
-for(i=0;i<n;i++)o+='<text x="'+(x0+i*w/sp-6)+'" y="292">R'+(i+1)+'</text>';
-S.forEach(function(s){var P=s.c.map(function(v,i){return(x0+i*w/sp)+','+(270-v/max*h)}).join(' ');
-o+='<polyline fill="none" stroke="'+s.col+'" stroke-width="2.5" points="'+P+'"/><text x="'+(x0+w+6)+'" y="'+(270-s.c[n-1]/max*h+4)+'">'+s.name+'</text>';
-o+='<polyline fill="none" stroke="rgba(0,0,0,0)" stroke-width="14" points="'+P+'"><title>'+s.name+': '+s.c[n-1]+' pkt</title></polyline>';
-s.c.forEach(function(v,i){o+='<circle cx="'+(x0+i*w/sp)+'" cy="'+(270-v/max*h)+'" r="4" fill="'+s.col+'"><title>'+s.name+' po R'+(i+1)+': '+v+' pkt ('+(s.v[i]>0?'+':'')+s.v[i]+' w tej rundzie)</title></circle>'})});$(id).innerHTML=o}
-function charts(){lines('ch1',D.drivers.slice(0,8).map(function(d){return{name:d.n,col:col(d.t),v:d.rp}}));
-lines('ch2',D.cons.map(function(c){return{name:c.t,col:col(c.t),v:D.races.map(function(r){return r.rows.reduce(function(s,x){return s+(nrm(x.t)==nrm(c.t)?(PT[x.p-1]||0):0)},0)})}}))}
-function stats(){var h='<tr><th class="n">#</th><th>Kierowca</th><th class="n">Pkt</th>';D.races.forEach(function(r){h+='<th class="n">'+short(r.title)+'</th>'});h+='<th class="n" title="Wygrane wyścigi">WIN</th><th class="n" title="Miejsca na podium (1–3)">TOP3</th><th class="n" title="Miejsca punktowane (1–10)">TOP10</th><th class="n" title="Średnia pozycja w wyścigu">ŚR.P</th><th class="n" title="Średnia pozycja w kwalifikacjach">ŚR.Q</th></tr>';
-D.drivers.forEach(function(d){var ps=D.races.map(function(r){var x=find(r.rows,d.n);return x?x.p:0}),qs=D.quals.map(function(q){return q[d.n]||0}),f=ps.filter(Boolean);
+for(g=0;g<=max;g+=st){var y=b-g/max*h;o+='<line x1="'+x0+'" x2="'+(x0+w)+'" y1="'+y+'" y2="'+y+'" stroke="currentColor" opacity=".12"/><text x="4" y="'+(y+4)+'">'+g+'</text>'}
+for(i=0;i<n;i++)o+='<text x="'+(x0+i*w/sp-6)+'" y="'+(b+22)+'">R'+(i+1)+'</text>';
+S.forEach(function(s){var P=s.c.map(function(v,i){return(x0+i*w/sp)+','+(b-v/max*h)}).join(' '),dash=seen[s.col]?' stroke-dasharray="6 3"':'';seen[s.col]=1;
+var tip=s.name+': '+s.c[n-1]+' pkt ('+s.v.map(function(v,i){return'R'+(i+1)+' '+v}).join(' · ')+')';
+o+='<polyline fill="none" stroke="'+s.col+'" stroke-width="2.5"'+dash+' points="'+P+'"/>';
+o+='<polyline fill="none" stroke="#000" stroke-opacity="0" stroke-width="14" pointer-events="stroke" data-tip="'+tip+'" points="'+P+'"/>';
+s.c.forEach(function(v,i){o+='<circle cx="'+(x0+i*w/sp)+'" cy="'+(b-v/max*h)+'" r="5" fill="'+s.col+'" pointer-events="all" data-tip="'+s.name+' po R'+(i+1)+': '+v+' pkt ('+(s.v[i]>0?'+':'')+s.v[i]+' w tej rundzie)"/>'})});
+var L=S.map(function(s){return{y:b-s.c[n-1]/max*h+4,n:s.name}}).sort(function(p,q){return p.y-q.y}),my=0;L.forEach(function(l,i){if(i&&l.y<L[i-1].y+12)l.y=L[i-1].y+12;my=Math.max(my,l.y);o+='<text x="'+(x0+w+6)+'" y="'+l.y+'">'+l.n+'</text>'});
+$(id).innerHTML=o;$(id).setAttribute('viewBox','0 0 700 '+Math.max(b+34,my+10))}
+function charts(){lines('ch1',D.drivers.map(function(d){return{name:d.n,col:col(d.t),v:d.rp}}),340);
+lines('ch2',D.cons.map(function(c){return{name:c.t,col:col(c.t),v:D.races.map(function(r){return r.rows.reduce(function(s,x){return s+(nrm(x.t)==nrm(c.t)?(PT[x.p-1]||0):0)},0)})}}),240)}
+function stats(){var fq=nrm($('flt').value),h='<tr><th class="n">#</th><th>Kierowca</th><th class="n">Pkt</th>';D.races.forEach(function(r){h+='<th class="n">'+short(r.title)+'</th>'});h+='<th class="n" title="Wygrane wyścigi">WIN</th><th class="n" title="Miejsca na podium (1–3)">TOP3</th><th class="n" title="Miejsca punktowane (1–10)">TOP10</th><th class="n" title="Średnia pozycja w wyścigu">ŚR.P</th><th class="n" title="Średnia pozycja w kwalifikacjach">ŚR.Q</th></tr>';
+D.drivers.forEach(function(d){if(fq&&nrm(d.n+' '+d.nick+' '+d.t).indexOf(fq)<0)return;var ps=D.races.map(function(r){var x=find(r.rows,d.n);return x?x.p:0}),qs=D.quals.map(function(q){return q[d.n]||0}),f=ps.filter(Boolean);
 h+='<tr><td class="n pos">'+d.p+'</td><td>'+nm(d)+'</td><td class="n pts">'+d.pts+'</td>'+ps.map(function(p,i){return'<td class="n'+(p&&p<4?' g'+p:'')+'">'+(p?d.rp[i]:'–')+'</td>'}).join('')+'<td class="n">'+f.filter(function(p){return p==1}).length+'</td><td class="n">'+f.filter(function(p){return p<=3}).length+'</td><td class="n">'+f.filter(function(p){return p<=10}).length+'</td><td class="n">'+av(ps)+'</td><td class="n">'+av(qs)+'</td></tr>'});$('ts').innerHTML=h}
 function duel(){var a=$('da').value,b=$('db').value,w=[0,0],q=[0,0],p=[0,0],h='<tr><th>Runda</th><th class="n">Q '+a+'</th><th class="n">Q '+b+'</th><th class="n">W '+a+'</th><th class="n">W '+b+'</th></tr>';
 D.races.forEach(function(r,i){var qa=(D.quals[i]||{})[a],qb=(D.quals[i]||{})[b],ra=find(r.rows,a),rb=find(r.rows,b);ra=ra&&ra.p;rb=rb&&rb.p;
 if(qa&&qb)q[qa<qb?0:1]++;if(ra&&rb)w[ra<rb?0:1]++;p[0]+=ra?PT[ra-1]||0:0;p[1]+=rb?PT[rb-1]||0:0;
 h+='<tr><td>'+short(r.title)+'</td><td class="n">'+(qa||'–')+'</td><td class="n">'+(qb||'–')+'</td><td class="n">'+(ra||'–')+'</td><td class="n">'+(rb||'–')+'</td></tr>'});
 $('ds').innerHTML='Wyścigi: '+w[0]+'–'+w[1]+' · Kwalifikacje: '+q[0]+'–'+q[1]+' · Punkty: '+p[0]+'–'+p[1];$('tdl').innerHTML=h}
+var P=null;
+function h2h(a,b){var w=[0,0],q=[0,0],p=[0,0];D.races.forEach(function(r,i){var qa=(D.quals[i]||{})[a],qb=(D.quals[i]||{})[b],ra=find(r.rows,a),rb=find(r.rows,b);ra=ra&&ra.p;rb=rb&&rb.p;if(qa&&qb)q[qa<qb?0:1]++;if(ra&&rb)w[ra<rb?0:1]++;p[0]+=ra?PT[ra-1]||0:0;p[1]+=rb?PT[rb-1]||0:0});return{w:w,q:q,p:p}}
+function profile(){var d=(P&&find(D.drivers,P))||D.drivers[0];if(!d){$('pf').innerHTML='<div class="sub" style="padding:14px">Wybierz kierowcę w wyszukiwarce lub kliknij jego nazwisko w dowolnej tabeli.</div>';return}
+if(document.activeElement!==$('psr'))$('psr').value=nl(d);var ps=[],qs=[],dnf=0,poles=0,tiles='',n=D.races.length,bw=60,bh=70,sv='<svg viewBox="0 0 '+(n*bw+10)+' '+(bh+34)+'" style="width:100%;max-width:'+(n*90+20)+'px">';
+D.races.forEach(function(r,i){var x=find(r.rows,d.n),qq=D.quals[i]||{},qr=D.qrows[i]?find(D.qrows[i].rows,d.n):null,q=qq[d.n],st=(D.starts[i]||{})[d.n],p=x?x.p:0,pt=p?(PT[p-1]||0):0,md=p&&p<4?' g'+p:'';
+ps.push(p);qs.push(q||0);if(q==1)poles++;if(x&&/^(DNF|DSQ|DNS)/i.test(x.time))dnf++;
+tiles+='<div class="tile"><div class="sub">'+short(r.title)+'</div>'+(x?'<div class="big"><span class="'+md.trim()+'">P'+p+'</span> '+arr(i,x)+'</div><div class="sub">'+(q?'Kwalifikacje: P'+q+(qr&&qr.p>1&&gap(qr.gap)?' ('+gap(qr.gap)+')':''):st?'Start: P'+st+' (bez kwalifikacji)':'')+'</div><div class="sub">'+x.time+(p>1&&gap(x.gap)?' · '+gap(x.gap):'')+'</div><div class="pts'+md+'">'+pt+' pkt</div>':'<div class="sub" style="margin-top:6px">nie startował</div>')+'</div>';
+var hh=pt/25*bh;sv+='<rect x="'+(10+i*bw)+'" y="'+(bh-hh+4)+'" width="40" height="'+hh+'" rx="4" fill="'+(p&&p<4?['#d4a017','#98a1ac','#cd7f32'][p-1]:col(d.t))+'"/><text x="'+(30+i*bw)+'" y="'+(bh-hh)+'" text-anchor="middle">'+pt+'</text><text x="'+(30+i*bw)+'" y="'+(bh+20)+'" text-anchor="middle">R'+(i+1)+'</text>'});
+sv+='</svg>';var f=ps.filter(Boolean),c=function(k){return f.filter(function(p){return p<=k}).length};
+var S=[['Miejsce',d.p],['Punkty',d.pts],['WIN',f.filter(function(p){return p==1}).length],['TOP3',c(3)],['TOP10',c(10)],['POLE',poles],['ŚR.P',av(ps)],['ŚR.Q',av(qs)],['Bilans Q→W',bal(d.bal)],['Best Result',d.best],['DNF/DSQ/DNS',dnf]];
+var cmp=function(a,b){return a<b?'pos-b':a>b?'neg-b':'sub'},tm=D.drivers.filter(function(o){return nrm(o.t)==nrm(d.t)&&o.n!=d.n}).map(function(o){return'<tr><td>'+nm(o)+'</td><td class="n pts">'+o.pts+'</td><td class="n '+cmp(o.p,d.p)+'">P'+o.p+'</td>'+D.races.map(function(r,i){var po=find(r.rows,o.n);return po?'<td class="n '+(ps[i]?cmp(po.p,ps[i]):'sub')+'">P'+po.p+'</td>':'<td class="n sub">–</td>'}).join('')+'</tr>'}).join('');
+$('pf').innerHTML='<div class="pfh" style="background:linear-gradient(135deg,'+col(d.t)+',#15171c 85%)">'+(d.no&&d.no!='-'?'<span class="no">'+d.no+'</span><img src="zdjecia/'+d.no+'.jpg" alt="" onerror="this.style.display=\'none\'">':'')+'<div><h2>'+d.n+'</h2><div class="sub">'+(d.nick||'')+'</div><div class="sub">'+d.t+(d.no&&d.no!='-'?' · #'+d.no:'')+'</div></div></div>'
++'<div class="sts">'+S.map(function(s){return'<div class="st"><b>'+s[1]+'</b><span>'+s[0]+'</span></div>'}).join('')+'</div>'
++'<h2>Rundy</h2><div class="tiles">'+tiles+'</div><h2>Punkty w rundach</h2><div class="card" style="padding:10px">'+sv+'</div>'
++(tm?'<h2>Kolega z zespołu</h2><div class="card"><table><tr><th>Kierowca</th><th class="n">Punkty</th><th class="n">Miejsce</th>'+D.races.map(function(r,i){return'<th class="n" title="'+short(r.title)+'">R'+(i+1)+'</th>'}).join('')+'</tr>'+tm+'</table></div><div class="sub" style="margin:-6px 2px 10px">Zielony: kolega z zespołu jest wyżej niż ten kierowca, czerwony: niżej. Miejsce = klasyfikacja ligi, R1… = pozycja na mecie.</div>':'')}
+function openProfile(nme){P=nme;profile();show(7);try{location.hash='#profil='+encodeURIComponent(nme)}catch(e){}window.scrollTo(0,0)}
 function fill(id,items,keep){var s=$(id),k=s.value;s.innerHTML='';items.forEach(function(t,i){var o=document.createElement('option');o.value=t[0];o.textContent=t[1];s.appendChild(o)});s.value=(keep&&items.some(function(t){return t[0]==k}))?k:items.length?items[id=='sel'||id=='qsel'?items.length-1:id=='db'?Math.min(1,items.length-1):0][0]:''}
-function all(){calc();var dn=D.drivers.map(function(d){return[d.n,d.n]});drivers();cons();fill('sel',D.races.map(function(r,i){return[i,r.title]}),1);fill('qsel',D.qrows.map(function(r,i){return[i,r.title]}),1);fill('da',dn,1);fill('db',dn,1);
-race(+$('sel').value);qual(+$('qsel').value);charts();stats();duel()}
-var tabs=['Kierowcy','Konstruktorzy','Wyścigi','Kwalifikacje','Wykresy','Statystyki','Pojedynek'];
+var US={};function lab(a){return a.map(function(r,i){return[i,r.title+(i==a.length-1?' (najnowszy)':'')]})}function nl(d){return d.n+(d.nick&&nrm(d.nick)!=nrm(d.n)?' ['+d.nick+']':'')}
+function all(){calc();var dn=D.drivers.map(function(d){return[d.n,d.n]});drivers();cons();fill('sel',lab(D.races),US.sel);fill('qsel',lab(D.qrows),US.qsel);fill('da',dn,1);fill('db',dn,1);
+race(+$('sel').value);qual(+$('qsel').value);charts();stats();duel();$('dl').innerHTML=D.drivers.map(function(d){return'<option value="'+nl(d).replace(/"/g,'&quot;')+'"></option>'}).join('');profile()}
+var tabs=['Kierowcy','Konstruktorzy','Wyścigi','Kwalifikacje','Wykresy','Statystyki','Pojedynek','Profil'];
 function show(i){tabs.forEach(function(_,k){$('v'+k).classList.toggle('on',k==i);$('nav').children[k].classList.toggle('on',k==i)})}
 tabs.forEach(function(t,i){var a=document.createElement('a');a.href='#'+t.toLowerCase().replace('ś','s').replace('ó','o');a.textContent=t;a.onclick=function(e){e.preventDefault();show(i)};$('nav').appendChild(a)});
-$('flt').oninput=drivers;$('sel').onchange=function(){race(+this.value)};$('qsel').onchange=function(){qual(+this.value)};$('da').onchange=$('db').onchange=duel;
+var tip=document.createElement('div');tip.id='tip';document.body.appendChild(tip);
+function tp(e){var t=e.target&&e.target.closest?e.target.closest('[data-tip]'):null;if(!t){tip.style.display='none';return}tip.textContent=t.getAttribute('data-tip');tip.style.display='block';tip.style.left=Math.max(4,Math.min(e.clientX+14,window.innerWidth-250))+'px';tip.style.top=(e.clientY+14)+'px'}
+document.addEventListener('pointermove',tp);document.addEventListener('pointerdown',tp);
+$('flt').oninput=stats;
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a.pl');if(a){e.preventDefault();openProfile(a.getAttribute('data-d'))}});
+$('psr').oninput=$('psr').onchange=function(){var v=nrm(this.value),d=D.drivers.filter(function(x){return nrm(nl(x))==v||nrm(x.n)==v||nrm(x.nick)==v})[0];if(d)openProfile(d.n)};
+$('psr').onfocus=function(){this.value=''};$('psr').onblur=function(){if(!this.value)profile()};$('sel').onchange=function(){US.sel=1;race(+this.value)};$('qsel').onchange=function(){US.qsel=1;qual(+this.value)};$('da').onchange=$('db').onchange=duel;
 function csv(t){var R=[],r=[],c='',q=0;for(var i=0;i<t.length;i++){var ch=t[i];if(q){if(ch=='"'&&t[i+1]=='"'){c+='"';i++}else if(ch=='"')q=0;else c+=ch}else if(ch=='"')q=1;else if(ch==','){r.push(c);c=''}else if(ch=='\n'){r.push(c);R.push(r);r=[];c=''}else c+=ch}r.push(c);R.push(r);return R}
 function gvs(sh,rng){return fetch('https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:csv&headers=0&sheet='+sh+'&range='+rng).then(function(r){if(!r.ok)throw 0;return r.text()}).then(csv)}
 function ok(n){return n&&n.trim()&&n.trim()[0]!=='#'}
 function live(){if(!SHEET_ID){$('note').textContent='Dane z arkusza (zrzut).';return}
-var req=[gvs('Klasyfikacja','A4:H29'),gvs('Klasyfikacja','A34:F45')],K=12,k;
-for(k=1;k<=K;k++){req.push(gvs('R'+k,'A1:G23').catch(function(){return null}));req.push(gvs('Q'+k,'A1:F23').catch(function(){return null}))}
-Promise.all(req).then(function(x){var dd=[],cc=[],rs=[],qs=[];
+var K=12,ks=[],i;for(i=1;i<=K;i++)ks.push(i);
+var null_=function(){return null};
+Promise.all([gvs('Klasyfikacja','A4:H29'),gvs('Klasyfikacja','A34:F45')].concat(ks.map(function(k){return gvs('R'+k,'A1:A1').catch(null_)}))).then(function(x){var dd=[],cc=[],ex=[],tm={};
 x[0].forEach(function(r){if(+r[0]>0&&r[1])dd.push({p:+r[0],n:r[1].trim(),nick:r[2]||'',t:(r[3]||'').trim(),no:r[4]||'-',pts:+r[5]||0,best:r[6]||'>10',bal:+r[7]||0})});
 x[1].forEach(function(r){if(+r[0]>0&&r[1])cc.push({p:+r[0],t:r[1].trim(),pts:+r[3]||0,best:r[4]||'>10',bal:+r[5]||0})});
-if(!dd.length)throw 0;var tm={};dd.forEach(function(d){tm[d.n]=d.t});
-for(k=1;k<=K;k++){var R=x[2*k],Q=x[2*k+1],ti=R&&R[0]&&R[0][0]||'';
-if(!R||ti.indexOf('Wyścig '+k+' ')<0)continue;var by={},rows=[];
-R.slice(3).forEach(function(r){if(r[0].trim())by[r[0].trim()]=r});
-R.slice(3).forEach(function(r){var p=+r[6],s=by[(r[4]||'').trim()]||[];if(ok(r[5])&&p>0)rows.push({p:p,n:r[5].trim(),nick:r[4]||'',t:tm[r[5].trim()]||'',time:s[3]||'',gap:s[2]||''})});
-rows.sort(function(a,b){return a.p-b.p});if(!rows.length)continue;
-var qr=[];if(Q&&Q[0]&&(Q[0][0]||'').indexOf('Kwalifikacje '+k+' ')>-1)Q.slice(3).forEach(function(r){var p=+r[5];if(ok(r[4])&&p>0)qr.push({p:p,n:r[4].trim(),nick:r[0]||'',t:tm[r[4].trim()]||'',time:r[3]||'',gap:r[2]||''})});
-rs.push({title:ti.split('– ').pop(),rows:rows});qs.push({title:Q&&Q[0]&&Q[0][0]?Q[0][0].split('– ').pop():'Kwalifikacje '+k,rows:qr})}
-D.drivers=dd;if(cc.length)D.cons=cc;if(rs.length){D.races=rs;D.qrows=qs}all();$('note').textContent='Dane na żywo z Arkuszy Google · '+new Date().toLocaleString('pl')}).catch(function(){$('note').textContent='Nie udało się pobrać arkusza (sprawdź udostępnianie) – pokazuję zrzut danych.'})}
-all();show(0);live();
+if(!dd.length)throw 0;dd.forEach(function(d){tm[d.n]=d.t});
+ks.forEach(function(k){var t=x[1+k],s=t&&t[0]&&t[0][0]||'';if(s.indexOf('Wyścig '+k+' ')>-1)ex.push({k:k,title:s.split('– ').pop().trim()})});
+return Promise.all(ex.map(function(e){return Promise.all([gvs('R'+e.k,'A1:G23'),gvs('Q'+e.k,'A1:F23').catch(null_),gvs('Q'+e.k,'A1:A1').catch(null_)])})).then(function(y){var rs=[],qs=[];
+y.forEach(function(z,j){var k=ex[j].k,R=z[0],Q=z[1],qt=z[2]&&z[2][0]&&z[2][0][0]||'',by={},rows=[],qr=[];
+R.forEach(function(r){if(r[0]&&r[0].trim())by[r[0].trim()]=r});
+R.forEach(function(r){var p=+r[6],s=by[(r[4]||'').trim()]||[];if(ok(r[5])&&p>0)rows.push({p:p,n:r[5].trim(),nick:r[4]||'',t:tm[r[5].trim()]||'',time:s[3]||'',gap:s[2]||''})});
+rows.sort(function(a,b){return a.p-b.p});if(!rows.length)return;
+if(Q&&qt.indexOf('Kwalifikacje '+k+' ')>-1)Q.forEach(function(r){var p=+r[5];if(ok(r[4])&&p>0)qr.push({p:p,n:r[4].trim(),nick:r[0]||'',t:tm[r[4].trim()]||'',time:r[3]||'',gap:r[2]||''})});
+qr.sort(function(a,b){return a.p-b.p});
+rs.push({title:ex[j].title,rows:rows});qs.push({title:qt?qt.split('– ').pop().trim():'Kwalifikacje '+k,rows:qr})});
+D.drivers=dd;if(cc.length)D.cons=cc;if(rs.length){D.races=rs;D.qrows=qs}all();
+var bad=D.drivers.filter(function(d){return d.rp.reduce(function(a,b){return a+b},0)!==d.pts}).length;
+$('note').textContent='Dane na żywo z Arkuszy Google · '+new Date().toLocaleString('pl')+(bad?' · ⚠ '+bad+' kierowców ma inną sumę punktów z wyników niż w Klasyfikacji':'')})}).catch(function(){$('note').textContent='Nie udało się pobrać arkusza (sprawdź udostępnianie) – pokazuję zrzut danych.'})}
+var hm=(location.hash||'').match(/^#profil=(.+)/),hn=hm&&decodeURIComponent(hm[1]);if(hn&&find(D.drivers,hn))P=hn;all();show(P?7:0);live();
 </script></body></html>
