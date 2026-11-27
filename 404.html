@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="pl"><head><meta charset="utf-8"><title>Ruch SZYBKICH Polaków – F1 25</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+// GitHub Pages nie ma osobnych plików dla adresów typu /nazwa-repo/wdc.
+// Ten plik przekierowuje na stronę główną, a index.html odtwarza właściwą podstronę.
+var KEEP=1; // 1 = adres w postaci uzytkownik.github.io/nazwa-repo/... ; 0 = własna domena w katalogu głównym
+var l=location,seg=l.pathname.split('/').filter(Boolean),base='/'+seg.slice(0,KEEP).join('/')+(KEEP?'/':''),rest=seg.slice(KEEP).join('/');
+l.replace(l.origin+base+'?r='+encodeURIComponent(rest)+l.hash);
+</script></head><body style="font-family:system-ui;background:#15171c;color:#fff;padding:24px">Przekierowanie…</body></html>
